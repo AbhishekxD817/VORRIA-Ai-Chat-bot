@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: "http://localhost:8989", // Fix typo
+    baseURL: "https://vorria-ai-chat-bot.onrender.com", // Fix typo
     withCredentials: true
 });
 

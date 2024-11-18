@@ -11,7 +11,7 @@ import chatsRouter from './routers/chatRouter.js';
 
 const app = express();
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: "https://vorria-ai.netlify.app",
     optionsSuccessStatus: 200,
     credentials: true
 }
