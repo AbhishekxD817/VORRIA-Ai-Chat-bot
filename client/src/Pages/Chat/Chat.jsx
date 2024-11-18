@@ -59,9 +59,11 @@ const Chat = () => {
     const [messages, setMessages] = React.useState([])
 
     React.useEffect(() => {
-        (async function () {
-            await fetchChatMessages();
-        })()
+        if (auth.user) {
+            (async function () {
+                await fetchChatMessages();
+            })()
+        }
     }, [])
 
     const fetchChatMessages = async () => {
