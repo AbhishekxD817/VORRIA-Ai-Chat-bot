@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Hourglass } from 'react-loader-spinner'
 import { Progress } from "../../components/ui/progress"
+import { toast } from 'react-toastify'
+import api, { wrapAsync } from '../../api/config/api'
 
 export function ProgressBar() {
     const [progress, setProgress] = React.useState(13)
@@ -25,9 +27,6 @@ export function ProgressBar() {
 const Chat = () => {
 
 
-
-
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const auth = useSelector((store) => store.auth);
@@ -44,6 +43,45 @@ const Chat = () => {
             return navigate('/auth');
         }
     }, [auth.user])
+
+
+
+
+
+
+
+
+
+
+
+
+    // fetch chat messages
+    const [messages, setMessages] = React.useState([])
+
+    React.useEffect(() => {
+        (async function () {
+            await fetchChatMessages();
+        })()
+    }, [])
+
+    const fetchChatMessages = async () => {
+        try {
+            setChatsLoading(true);
+            let response = await wrapAsync(() => api.get('/chat'));
+            setChatsLoading(false);
+            if (response) {
+                setMessages(response.chat);
+                toast.success("Chat successfully recovered")
+                return;
+            }
+            return;
+        } catch (error) {
+            setChatsLoading(false);
+            const { message = "Something went wrong while fetching messages" } = error;
+            toast.error(message);
+            return;
+        }
+    }
 
 
 
@@ -81,7 +119,7 @@ const Chat = () => {
                     <SidebarProvider>
                         <SideBar />
                         <main className='w-full h-full'>
-                            <ChatSection setChatsLoading={setChatsLoading} />
+                            <ChatSection messages={messages} setMessages={setMessages} />
                         </main>
                     </SidebarProvider>
                 </div >

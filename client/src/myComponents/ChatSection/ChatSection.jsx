@@ -31,48 +31,10 @@ export function SideBarButton() {
     </Button>
 }
 
-export default function ChatSection({ setChatsLoading }) {
+export default function ChatSection({ messages, setMessages }) {
 
-
-
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
     const { handleSubmit, reset, register } = useForm();
 
-
-    // fetch chat messages
-    const [messages, setMessages] = React.useState([])
-
-    React.useEffect(() => {
-        (async function () {
-            await fetchChatMessages();
-        })()
-    }, [])
-
-
-
-
-
-
-    const fetchChatMessages = async () => {
-        try {
-            setChatsLoading(true);
-            let response = await wrapAsync(() => api.get('/chat'));
-            setChatsLoading(false);
-            if (response) {
-                setMessages(response.chat);
-                toast.success("Chat successfully recovered")
-                return;
-            }
-            return;
-        } catch (error) {
-            setChatsLoading(false);
-            const { message = "Something went wrong while fetching messages" } = error;
-            toast.error(message);
-            return;
-        }
-    }
 
     // response coming from ai
     const [responding, setResponding] = React.useState(false);
